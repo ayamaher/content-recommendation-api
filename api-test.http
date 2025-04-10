@@ -1,0 +1,16 @@
+# POST /interactions
+POST http://localhost:3000/api/interactions
+Content-Type: application/json
+
+{
+  "userId": "0cd1df38-fcbc-4180-8836-d12afcdfc604",
+  "contentId": "0cd1df38-fcbc-4181-8836-d12afcdfc604", 
+  "type": "view",
+  "rating": 4
+}
+
+# # GET /recommendations
+# GET http://localhost:3000/api/recommendations?userId=user-uuid
+
+# GET /content/filter
+# GET http://localhost:3000/api/content/filter?type=video&category=health
