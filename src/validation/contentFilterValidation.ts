@@ -1,6 +1,21 @@
-import Joi from 'joi';
+import { IsIn, IsInt, IsOptional, Max, Min } from 'class-validator';
 
-export const contentFilterSchema = Joi.object({
-  type: Joi.string().valid('article', 'video', 'image', 'podcast').optional(),
-  category: Joi.string().optional(),
-});
+export class FilterContentDto {
+  @IsOptional()
+  @IsIn(['article', 'video', 'image', 'podcast'])
+    type: string;
+
+  @IsOptional()
+   category: string;
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+   page?: number = 1;
+ 
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(10)
+   limit?: number = 10;
+}

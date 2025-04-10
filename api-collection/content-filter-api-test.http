@@ -1,0 +1,2 @@
+# GET /content/filter
+GET http://localhost:3000/api/content/filter?type=article&page=1&limit=5

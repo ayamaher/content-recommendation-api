@@ -1,5 +1,5 @@
-import Joi from 'joi';
+// import Joi from 'joi';
 
-export const recommendationsSchema = Joi.object({
-  userId: Joi.string().required(),
-});
+// export const recommendationsSchema = Joi.object({
+//   userId: Joi.string().required(),
+// });

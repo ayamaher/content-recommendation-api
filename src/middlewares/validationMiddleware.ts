@@ -1,12 +1,31 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
+import { ParamsDictionary } from 'express-serve-static-core';
+import { ParsedQs } from 'qs';
+
+declare global {
+  namespace Express {
+    interface Request {
+      validatedQuery?: any;
+    }
+  }
+}
 import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { ValidationError } from 'class-validator';
 
-export function validateDto<T extends object>(dtoClass: new () => T): RequestHandler {
+export function validateDto<T extends object>(
+  dtoClass: new () => T,
+  validationType: 'body' | 'query' = 'body'
+): RequestHandler {
   return async (req: Request, res: Response, next: NextFunction) => {
-    const dto = plainToInstance(dtoClass, req.body);
-    const errors = await validate(dto);
+    const data = validationType === 'body' ? req.body : req.query;
+    const dto = plainToInstance(dtoClass, data, {
+      enableImplicitConversion: true 
+    });
+    const errors = await validate(dto, {
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    });
 
     if (errors.length > 0) {
       const message = errors.map((error: ValidationError) => 
@@ -17,13 +36,19 @@ export function validateDto<T extends object>(dtoClass: new () => T): RequestHan
         message: `Validation failed: ${message}`,
         errors: errors.map(error => ({
           property: error.property,
-          constraints: error.constraints
+          constraints: error.constraints,
+          value: error.value
         }))
       });
       return;
     }
 
-    req.body = dto;
+    if (validationType === 'body') {
+      req.body = dto;
+    } else {
+      // Create a new validatedQuery object instead of modifying req.query directly
+      req.validatedQuery = dto;
+    }
     next();
   };
 }

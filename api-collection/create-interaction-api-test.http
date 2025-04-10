@@ -1,0 +1,10 @@
+# POST /interactions
+POST http://localhost:3000/api/interactions
+Content-Type: application/json
+
+{
+  "userId": "84b42087-0799-4fb8-aea8-b15c3a95d0f0",
+  "contentId": "c787c1ce-8a55-434f-ba65-1fbb8fe462b7", 
+  "type": "rate",
+  "rating": 1
+}

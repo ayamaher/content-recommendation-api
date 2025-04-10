@@ -1,30 +1,38 @@
 import { AppDataSource } from '../database';
-import { Content } from '../models/Content';  // Content model
-import { In } from 'typeorm';
+import { Content } from '../models/Content';
+import { In, Like } from 'typeorm';
+import { FilterContentDto } from '../validation/contentFilterValidation';
 
-export const filterContentService = async (type: string, category: string) => {
+export const filterContentService = async (filter: FilterContentDto) => {
   try {
+    const { page = 1, limit = 10, type, category } = filter;
+    const skip = (page - 1) * limit;
     const contentRepository = AppDataSource.getRepository(Content);
 
-    // Build the query object dynamically based on provided parameters
-    let query: any = {};
+    // Build query conditions
+    const where: any = {};
+    if (type) where.type = type;
+    if (category) where.tags = In([category]);
 
-    if (type) {
-      query.type = type;  // Filter by content type (e.g., 'article', 'video')
-    }
-
-    if (category) {
-      query.tags = In([category]);  // Filter by category (e.g., 'technology', 'health')
-    }
-
-    // Fetch filtered content from the database
-    const filteredContent = await contentRepository.find({
-      where: query,
+    // Get paginated results
+    const [contents, total] = await contentRepository.findAndCount({
+      where,
+      skip,
+      take: limit,
+      order: { createdAt: 'DESC' }
     });
 
-    return filteredContent;
+    return {
+      data: contents,
+      pagination: {
+        currentPage: page,
+        itemsPerPage: limit,
+        totalItems: total,
+        totalPages: Math.ceil(total / limit)
+      }
+    };
   } catch (error) {
     console.error('Error in filterContentService:', error);
-    throw error;  // Re-throw the error to be handled by the controller
+    throw error;
   }
 };
