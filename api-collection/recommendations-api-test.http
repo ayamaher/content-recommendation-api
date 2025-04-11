@@ -1,3 +1,2 @@
 # GET /recommendations
 GET http://localhost:3000/api/recommendations?userId=5aa0642f-0d81-4a6b-86ca-48d0ecb05e0b&page=5&limit=20
-

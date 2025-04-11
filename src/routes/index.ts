@@ -1,7 +1,7 @@
 import express from 'express';
 import { recordInteraction } from '../controllers/InteractionsController';
 import { RecommendationsController } from '../controllers/RecommendationsController';
-import { filterContent } from '../controllers/ContentController';
+import { contentController } from '../controllers/ContentController';
 import { CreateInteractionDto } from '../validation/interactionsValidation';
 import { GetRecommendationsDto } from '../validation/recommendationsValidation';
 import { FilterContentDto } from '../validation/contentFilterValidation';
@@ -17,7 +17,7 @@ const recommendationsController = new RecommendationsController();
 router.get('/recommendations', validateDto(GetRecommendationsDto, 'query'), recommendationsController.getRecommendations);
 
 // GET /content/filter - Filter content by type and category
-router.get('/content/filter', validateDto(FilterContentDto, 'query'), filterContent);
+router.get('/content/filter', validateDto(FilterContentDto, 'query'), contentController.filterContent);
 
 export default router;
 

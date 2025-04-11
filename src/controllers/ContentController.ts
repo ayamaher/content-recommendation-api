@@ -1,14 +1,29 @@
 import { Request, Response } from 'express';
-import { filterContentService } from '../services/ContentService';
-import { FilterContentDto } from '../validation/contentFilterValidation';
+import { ContentFilterService } from '../services/ContentFilterService';
+import { PaginationOptions } from '../types/pagination';
 
-export const filterContent = async(req: Request, res: Response) => {
-  try {
-    const filter = req.validatedQuery as FilterContentDto;
-    const result = await filterContentService(filter);
-    res.json(result);
-  } catch (error) {
-    console.error('Error filtering content:', error);
-    res.status(500).json({ message: 'Error filtering content' });
+// Singleton pattern implementation
+class ContentController {
+  
+  async filterContent(req: Request, res: Response) {
+    const contentService = new ContentFilterService();
+    try {
+      const { type, category, page, limit } = req.query;
+      const result = await contentService.filterByTypeAndCategory(
+        type as string | undefined,
+        category as string | undefined,
+        {
+          page: page ? Number(page) : 1,
+          limit: limit ? Number(limit) : 10
+        }
+      );
+      res.json(result);
+    } catch (error) {
+
+      res.status(500).json({ message: 'Error filtering content' });
+    }
   }
-};
+}
+
+// Export the singleton instance
+export const contentController = new ContentController();

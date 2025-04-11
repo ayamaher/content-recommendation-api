@@ -3,7 +3,7 @@ import { GetRecommendationsDto } from '../validation/recommendationsValidation';
 import { RequestHandler } from 'express-serve-static-core';
 
 export class RecommendationsController {
-  private recommendationService = new RecommendationService();
+  private recommendationService = new RecommendationService()
 
   getRecommendations: RequestHandler = async (req, res) => {
     try {
@@ -11,8 +11,10 @@ export class RecommendationsController {
   
       const result = await this.recommendationService.getRecommendations(
         userId,
-        Number(page),
-        Number(limit)
+        {
+          page: page ? Number(page) : 1,
+          limit: limit ? Number(limit) : 10
+        }
       );
   
       res.json(result);

@@ -1,2 +1,3 @@
 # GET /content/filter
-GET http://localhost:3000/api/content/filter?type=article&category=travel&page=1&limit=8
+GET http://localhost:3000/api/content/filter?type=video&category=art&page=3&limit=4
+  

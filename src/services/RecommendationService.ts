@@ -1,9 +1,12 @@
 import { AppDataSource } from '../database';
 import { Content } from '../models/Content';
 import { User } from '../models/User';
+import { PaginatedResponse, PaginationOptions } from '../types/pagination';
 
 export class RecommendationService {
-  async getRecommendations(userId: string, page: number = 1, limit: number = 10) {
+  async getRecommendations(userId: string,  pagination?: PaginationOptions): Promise<PaginatedResponse<Content>> {
+    const { page = 1, limit = 10 } = pagination || {};
+
     const user = await AppDataSource.getRepository(User).findOne({
       where: { id: userId },
       select: ['id', 'username', 'preferences']
@@ -27,19 +30,18 @@ export class RecommendationService {
       .sort((a, b) => b.score - a.score || b.popularity - a.popularity)
       .slice(skip, skip + limit);
   
+    const total = allContents.length;
     return {
       user: {
         id: user.id,
         username: user.username,
         preferences: user.preferences
       },
-      recommendations,
-      pagination: {
-        currentPage: page,
-        itemsPerPage: limit,
-        totalItems: allContents.length,
-        totalPages: Math.ceil(allContents.length / limit)
-      }
+      data: recommendations,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit)
     };
   }
 }
