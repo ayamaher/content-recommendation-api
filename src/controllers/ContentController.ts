@@ -11,4 +11,4 @@ export const filterContent = async(req: Request, res: Response) => {
     console.error('Error filtering content:', error);
     res.status(500).json({ message: 'Error filtering content' });
   }
-}
+};

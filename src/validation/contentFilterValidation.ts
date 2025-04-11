@@ -6,16 +6,16 @@ export class FilterContentDto {
     type: string;
 
   @IsOptional()
-   category: string;
+    category: string;
 
   @IsOptional()
   @IsInt()
   @Min(1)
-   page?: number = 1;
+    page?: number = 1;
  
   @IsOptional()
   @IsInt()
   @Min(1)
-  @Max(10)
-   limit?: number = 10;
+  @Max(20)
+    limit?: number = 10;
 }

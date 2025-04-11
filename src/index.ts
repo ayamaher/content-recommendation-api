@@ -9,7 +9,7 @@ const port = 3000;
 app.use(express.json());
 
 // Initialize the database connection
-closeAllDatabaseConnections()
+closeAllDatabaseConnections();
 initializeDatabase();
 
 // Use routes for the API

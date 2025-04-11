@@ -1,6 +1,6 @@
 import { AppDataSource } from '../database';
 import { Content } from '../models/Content';
-import { In, Like } from 'typeorm';
+import { Like } from 'typeorm';
 import { FilterContentDto } from '../validation/contentFilterValidation';
 
 export const filterContentService = async (filter: FilterContentDto) => {
@@ -12,7 +12,7 @@ export const filterContentService = async (filter: FilterContentDto) => {
     // Build query conditions
     const where: any = {};
     if (type) where.type = type;
-    if (category) where.tags = In([category]);
+    if (category) where.tags = Like(`%${category}%`);
 
     // Get paginated results
     const [contents, total] = await contentRepository.findAndCount({
