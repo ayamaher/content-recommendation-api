@@ -18,7 +18,12 @@ export class RecommendationService {
   
     const skip = (page - 1) * limit;
     const allContents = await AppDataSource.getRepository(Content)
-      .find({ order: { popularity: 'DESC' } });
+      .find({ 
+        order: { 
+          popularity: 'DESC',
+          createdAt: 'DESC' 
+        } 
+      });
   
     const recommendations = allContents
       .map(content => ({

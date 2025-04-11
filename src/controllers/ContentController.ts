@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { ContentFilterService } from '../services/ContentFilterService';
-import { PaginationOptions } from '../types/pagination';
 
 // Singleton pattern implementation
 class ContentController {

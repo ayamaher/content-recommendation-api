@@ -38,8 +38,4 @@ export class ContentFilterService {
       totalPages: Math.ceil(total / limit)
     };
   }
-
-  async getContentById(id: string) {
-    return await this.contentRepository.findOne({ where: { id } });
-  }
 }

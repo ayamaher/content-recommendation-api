@@ -3,7 +3,7 @@ import { GetRecommendationsDto } from '../validation/recommendationsValidation';
 import { RequestHandler } from 'express-serve-static-core';
 
 export class RecommendationsController {
-  private recommendationService = new RecommendationService()
+  private recommendationService = new RecommendationService();
 
   getRecommendations: RequestHandler = async (req, res) => {
     try {
