@@ -16,7 +16,7 @@ npm run test
 ```
 - for cetatin test
 ```bash
-npm run test:filter src/tests/ContentFilterService.test.ts
+npm run test src/tests/ContentFilterService.test.ts
 ```
 
 ## API Endpoints
@@ -44,7 +44,6 @@ This ensures users see the most relevant, trending, and fresh content first.
 
 ## Suggested Enhancements
 - secure API endpoints with authentication 
-- implement caching for frequently accessed data 
 - cronJob to frequently update users prefrences based on recent content interactions tags
 - composite key for interaction user and content per ineraction type to avoid duplicate entries
 

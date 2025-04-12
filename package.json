@@ -12,9 +12,8 @@
     "seed": "ts-node src/seeds/seeder.ts",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:filter": "jest src/tests/ContentFilterService.test.ts"
-  },
+    "test:coverage": "jest --coverage"
+    },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ayamaher/content-recommendation-api.git"
