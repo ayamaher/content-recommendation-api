@@ -9,7 +9,7 @@ export class InteractionService {
     this.interactionRepository = AppDataSource.getRepository(Interaction);
   }
 
-  async save(userId: string, contentId: string, type: string, rating?: number) {
+  async save(userId: string, contentId: string, type: string, rating?: number):  Promise<Interaction> {
     const interaction = new Interaction();
     interaction.userId = userId;
     interaction.contentId = contentId;

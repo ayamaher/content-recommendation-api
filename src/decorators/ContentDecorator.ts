@@ -10,7 +10,7 @@ export function ContentExists(validationOptions?: ValidationOptions) {
       propertyName: propertyName,
       options: validationOptions,
       validator: {
-        async validate(value: any) {
+        async validate(value: any): Promise<boolean>  {
           try {
             if (!AppDataSource.isInitialized) {
               await AppDataSource.initialize();
@@ -25,7 +25,7 @@ export function ContentExists(validationOptions?: ValidationOptions) {
             return false;
           }
         },
-        defaultMessage() {
+        defaultMessage():string {
           return 'Content with this ID does not exist';
         }
       }

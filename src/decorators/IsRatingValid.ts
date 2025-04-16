@@ -16,7 +16,7 @@ export function IsRatingValid(validationOptions?: ValidationOptions) {
           }
           return value === undefined; // Ensure rating is undefined for other types
         },
-        defaultMessage(args: ValidationArguments) {
+        defaultMessage(args: ValidationArguments): string {
           const type = (args.object as any).type;
           return type === 'rate'
             ? 'Rating must be an integer between 1 and 5 when type is "rate".'

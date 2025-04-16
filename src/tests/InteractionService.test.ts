@@ -1,6 +1,5 @@
 import { Interaction } from '../models/Interaction';
 import { InteractionService } from '../services/InteractionService';
-import { Repository } from 'typeorm';
 
 // Mock the repository
 const mockInteractionRepository = {

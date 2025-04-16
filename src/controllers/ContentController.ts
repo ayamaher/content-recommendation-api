@@ -18,7 +18,7 @@ class ContentController {
       );
       res.json(result);
     } catch (error) {
-
+      console.error('Error filtering content:', error);
       res.status(500).json({ message: 'Error filtering content' });
     }
   }

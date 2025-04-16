@@ -14,8 +14,9 @@ export default [
         project: './tsconfig.json'
       },
       globals: {
-        ...globals.node
-      }
+        ...globals.node,
+        ...globals.jest,
+            }
     },
     plugins: {
       '@typescript-eslint': tsPlugin
@@ -27,6 +28,6 @@ export default [
       'semi': ['error', 'always'],
       'quotes': ['error', 'single'],
       'indent': ['error', 2]
-    }
+    },
   }
 ];

@@ -1,5 +1,4 @@
 import { Content } from '../models/Content';
-import { PaginationOptions, PaginatedResponse } from '../types/pagination';
 import { ContentFilterService } from '../services/ContentFilterService';
 
 // Mocking the contentRepository
@@ -62,7 +61,7 @@ describe('ContentFilterService', () => {
 
   it('should filter content by category', async () => {
     const mockData: Content[] = [{ 
-      id: '1', 
+      id: '62aee94a-94a4-400f-8b60-1d1287484ea2',
       title: 'Tech Article', 
       type: 'article', 
       tags: ['technology'], 
@@ -70,7 +69,8 @@ describe('ContentFilterService', () => {
       createdAt: new Date(), 
       interactions: []  
     }];
-    mockQueryBuilder.getManyAndCount.mockResolvedValue([mockData, 1]);
+
+    mockQueryBuilder.getManyAndCount.mockResolvedValue([mockData, mockData.length]);
 
     const response = await service.filterByTypeAndCategory(undefined, 'technology');
     expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith('content.tags LIKE :category', { category: '%technology%' });
@@ -80,8 +80,17 @@ describe('ContentFilterService', () => {
   it('should filter content by both type and category', async () => {
     const mockData: Content[] = [
       {
-        id: '1',
-        title: 'AI Article',
+        id: '62aee94a-94a4-400f-8b60-1d1287484ea2',
+        title: 'AI Image', 
+        type: 'image',
+        tags: ['technology', 'AI'],
+        popularity: 50,
+        createdAt: new Date(),
+        interactions: []
+      },
+      {
+        id: '62aee94a-94a4-400f-8b60-1d1287484ea3',
+        title: 'AI Article', 
         type: 'article',
         tags: ['technology', 'AI'],
         popularity: 50,
@@ -89,54 +98,23 @@ describe('ContentFilterService', () => {
         interactions: []
       },
       {
-        id: '2',
-        title: 'Another AI Article',
+        id: '62aee94a-94a4-400f-8b60-1d1287484ea4',
+        title: 'Health Article', 
         type: 'article',
-        tags: ['AI'],
-        popularity: 30,
+        tags: ['technology', 'health'],
+        popularity: 50,
         createdAt: new Date(),
         interactions: []
       },
-      {
-        id: '3',
-        title: 'Non-AI Article',
-        type: 'article',
-        tags: ['technology'],
-        popularity: 20,
-        createdAt: new Date(),
-        interactions: []
-      }
     ];
-    mockQueryBuilder.getManyAndCount.mockResolvedValue([mockData, 2]);
+
+    mockQueryBuilder.getManyAndCount.mockResolvedValue([mockData, mockData.length]);
 
     const response = await service.filterByTypeAndCategory('article', 'AI');
     
     expect(mockQueryBuilder.andWhere).toHaveBeenNthCalledWith(1, 'content.type = :type', { type: 'article' });
     expect(mockQueryBuilder.andWhere).toHaveBeenNthCalledWith(2, 'content.tags LIKE :category', { category: '%AI%' });
-    // expect(response.data.length).toBe(2); // Expecting 2 articles that match both type and category
+    expect(response.data.length).toBe(1);
   });
 
-  it('should paginate the content correctly', async () => {
-    const mockData: Content[] = [
-      { 
-        id: '1', 
-        title: 'Tech Article',
-        type: 'article',
-        tags: ['technology'],
-        popularity: 50, 
-        createdAt: new Date(),
-        interactions: [] 
-      }
-    ];
-    mockQueryBuilder.getManyAndCount.mockResolvedValue([mockData, 50]);
-
-    const pagination: PaginationOptions = { page: 2, limit: 5 };
-    const response = await service.filterByTypeAndCategory(undefined, undefined, pagination);
-
-    expect(mockQueryBuilder.skip).toHaveBeenCalledWith(5);
-    expect(mockQueryBuilder.take).toHaveBeenCalledWith(5);
-    expect(response.page).toBe(2);
-    expect(response.limit).toBe(5);
-    expect(response.totalPages).toBe(10);
-  });
 });

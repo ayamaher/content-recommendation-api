@@ -5,6 +5,13 @@
 npm install
 npm run dev
 ```
+- or 
+```bash
+npm install
+npm run build
+npm run start
+```
+- you can use `content_recommendation.db` already seeded database or delete this file and run the following command 
 ## Seeding Data
 ```bash
 npm run seed
@@ -20,6 +27,7 @@ npm run test src/tests/ContentFilterService.test.ts
 ```
 
 ## API Endpoints
+- install `REST Client` Vscode extension to test API endpoints under `api-collections` folder
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/recommendations` | Get personalized recommendations |
